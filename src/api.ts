@@ -6,6 +6,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const apiKey = process.env.NEXT_PUBLIC_KAJILABSTORE_API_KEY;
 
 type CreatePaymentType = {
     pay_at: string;
@@ -61,7 +62,12 @@ type UpdateUserDebtType = {
 export const getPayments = async (): Promise<Payment[]> => {
     try{
         //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
-        const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {cache: "no-store"})  // SSR
+        const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {
+            cache: "no-store",  // SSR
+            headers: {
+                'X-API-KEY': apiKey ?? "",
+            }
+        })
         console.log(res)
 
         const payments = await res.json()
@@ -75,7 +81,12 @@ export const getProductByBarcode = async (barcode: number): Promise<Product> => 
     try{
         //const res = await fetch(`http://localhost:8080/api/v1/products/134912341232`, {cache: "no-store"})
         // const res = await fetch(`http://localhost:8080/api/v1/products/${barcode}`, {cache: "no-store"})
-        const res = await fetch(`${baseURL}/api/v1/products/${barcode}`, {cache: "no-store"})
+        const res = await fetch(`${baseURL}/api/v1/products/${barcode}`, {
+            cache: "no-store",
+            headers: {
+                'X-API-KEY': apiKey ?? "",
+            }
+        })
         console.log(res)
 
         const product = await res.json()
@@ -97,7 +108,12 @@ export const getProductByBarcode = async (barcode: number): Promise<Product> => 
 export const getArrivals = async (): Promise<Arrival[]> => {
     //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
     try{
-        const res = await fetch(`${baseURL}/api/v1/products/arrive/logs?limit=5`, {cache: "no-store"})  // SSR
+        const res = await fetch(`${baseURL}/api/v1/products/arrive/logs?limit=5`, {
+            cache: "no-store",  // SSR
+            headers: {
+                'X-API-KEY': apiKey ?? "",
+            }
+        })
         console.log(res)
 
         const arrivals = await res.json()
@@ -129,7 +145,12 @@ export const getGlobalIP = async(): Promise<string> => {
 
 
 export const deletePayment = async (id: number) => {
-    const res = await fetch(`${baseURL}/api/v1/products/buy/${id}`, {method: "DELETE"});
+    const res = await fetch(`${baseURL}/api/v1/products/buy/${id}`, {
+        method: "DELETE",
+        headers: {
+            'X-API-KEY': apiKey ?? "",
+        }
+    });
 
     if(res.ok){
         console.log("削除に成功")
@@ -141,7 +162,12 @@ export const deletePayment = async (id: number) => {
 }
 
 export const deleteArrival = async (id: number) => {
-    const res = await fetch(`${baseURL}/api/v1/products/arrival/${id}`, {method: "DELETE"});
+    const res = await fetch(`${baseURL}/api/v1/products/arrival/${id}`, {
+        method: "DELETE",
+        headers: {
+            'X-API-KEY': apiKey ?? "",
+        }
+    });
 
     if(res.ok){
         console.log("削除に成功")
@@ -177,6 +203,7 @@ export const createPayment = async (buyProducts: BuyProduct[], method: string, u
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'X-API-KEY': apiKey ?? "",
         },
         body: JSON.stringify(requestPayment)
     });
@@ -202,6 +229,7 @@ export const createArrival = async (arrivalProducts: CartProduct[], withdrawal: 
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'X-API-KEY': apiKey ?? "",
         },
         body: JSON.stringify(requestArrival)
     });
@@ -224,6 +252,7 @@ export const createProduct = async (name: string, barcode:number, price: number,
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'X-API-KEY': apiKey ?? "",
         },
         body: JSON.stringify(requestProduct)
     });
@@ -246,6 +275,7 @@ export const updateProduct = async (id: number, name: string, barcode: number, p
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
+            'X-API-KEY': apiKey ?? "",
         },
         body: JSON.stringify(requestProduct)
     })
@@ -255,9 +285,13 @@ export const updateProduct = async (id: number, name: string, barcode: number, p
 }
 
 export const getUser = async (barcode: string): Promise<User> => {
-    //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
     //const res = await fetch(`${baseURL}/api/v1/users/1080123456788`, {cache: "no-store"})  // SSR
-    const res = await fetch(`${baseURL}/api/v1/users/${barcode}`, {cache: "no-store"})  // SSR
+    const res = await fetch(`${baseURL}/api/v1/users/${barcode}`, {
+        cache: "no-store",  // SSR
+        headers: {
+            'X-API-KEY': apiKey ?? "",
+        }
+    })
     console.log(res)
 
     const user = await res.json()
@@ -275,6 +309,7 @@ export const createUser = async (name: string, barcode: string): Promise<number>
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'X-API-KEY': apiKey ?? "",
         },
         body: JSON.stringify(requestUser)
     });
@@ -292,6 +327,7 @@ export const updateUserDebt = async (id: number, debt: number): Promise<number> 
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
+            'X-API-KEY': apiKey ?? "",
         },
         body: JSON.stringify(requestUserDebt)
     })

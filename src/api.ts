@@ -57,6 +57,7 @@ type CreateUserType = {
 type UpdateUserDebtType = {
     id: number;
     debt: number;
+    content: string;
 }
 
 export const getPayments = async (): Promise<Payment[]> => {
@@ -318,10 +319,11 @@ export const createUser = async (name: string, barcode: string): Promise<number>
     return res.status
 }
 
-export const updateUserDebt = async (id: number, debt: number): Promise<number> => {
+export const updateUserDebt = async (id: number, debt: number, content: string): Promise<number> => {
     let requestUserDebt: UpdateUserDebtType = {
         id: id,
         debt: debt,
+        content: content
     }
     const res = await fetch(`${baseURL}/api/v1/users/debt`, {
         method: "PUT",

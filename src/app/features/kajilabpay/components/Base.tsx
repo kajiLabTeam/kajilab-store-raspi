@@ -71,7 +71,7 @@ const Base = () => {
       console.log("チャージ！！")
       playChargeSound()
       // const status = await createPayment(buyProducts, "cash")
-      const status = await updateUserDebt(user.id, user.debt + increaseDebt)
+      const status = await updateUserDebt(user.id, user.debt + increaseDebt, "チャージ")
       toggle
       notifications.show({
         title: "現在の残高",

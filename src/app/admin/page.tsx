@@ -22,11 +22,14 @@ export default async function AdminHome() {
             <Admin.ArrivalList arrivals={arrivals}/>
         </div>
         <div className="absolute bottom-5">
-        <Link href={"/"}>
-          <Button fullWidth variant="filled" color='blue'>購入モード</Button>
-        </Link>
+          <Link href={"/"}>
+            <Button fullWidth variant="filled" color='blue'>購入モード</Button>
+          </Link>
         </div>
         <div className='mt-4 flex justify-end'>
+          <Link href={"/admin/payout"} className='mr-5'>
+            <Button fullWidth variant="filled" color='red'>梶研Pay払い出し</Button>
+          </Link>
           <Admin.TestSound/>
         </div>
     </div>
